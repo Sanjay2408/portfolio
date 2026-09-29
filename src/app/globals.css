@@ -1,26 +1,129 @@
 @import 'tailwindcss';
 
+/*
+ * Color tokens. One accent, warm paper neutrals. Every text pairing meets
+ * WCAG AA (4.5:1) on its background in both themes.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --paper: #fbfaf7;
+  --surface: #f3f1ea;
+  --ink: #17160f;
+  --ink-2: #57544b;
+  --ink-3: #6b685f;
+  --rule: #e3e0d6;
+  --accent: #c2410c;
+  --on-accent: #ffffff;
+  --up: #15803d;
+  --timeout: #b45309;
+  --down: #b91c1c;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark tokens appear twice: once for the toggle, once for the no-JavaScript fallback below. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #12110e;
+  --surface: #1c1b17;
+  --ink: #eeece6;
+  --ink-2: #bdb9af;
+  --ink-3: #9d998f;
+  --rule: #2e2c27;
+  --accent: #ff8a5b;
+  --on-accent: #12110e;
+  --up: #4ade80;
+  --timeout: #fbbf24;
+  --down: #f87171;
 }
 
+/* Without JavaScript the theme script never runs, so fall back to the OS setting. */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --paper: #12110e;
+    --surface: #1c1b17;
+    --ink: #eeece6;
+    --ink-2: #bdb9af;
+    --ink-3: #9d998f;
+    --rule: #2e2c27;
+    --accent: #ff8a5b;
+    --on-accent: #12110e;
+    --up: #4ade80;
+    --timeout: #fbbf24;
+    --down: #f87171;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-up: var(--up);
+  --color-timeout: var(--timeout);
+  --color-down: var(--down);
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Only one theme icon is visible at a time, chosen by CSS so the server and client render the same markup. */
+:root:not([data-theme='dark']) .theme-icon-sun,
+:root[data-theme='dark'] .theme-icon-moon {
+  display: none;
 }
