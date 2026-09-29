@@ -70,7 +70,7 @@ export const wins: readonly Win[] = [
 
 export const design = {
   pitch:
-    'I design what I build. Client work for fintech brands is why my products look finished instead of like prototypes.',
+    'I design what I build. Design work for brands like Groww, Motilal Oswal and Red Bull is why my products look finished, not like prototypes.',
   roles: [
     {
       role: 'Senior Graphic Designer',
