@@ -1,0 +1,363 @@
+{
+  "generated_at": "2026-08-25T07:58:42.577913",
+  "scale": 0.2,
+  "datasets": {
+    "A": {
+      "dataset": "A",
+      "regime": "train",
+      "events": 4573,
+      "benign_events_scanned": 4573,
+      "campaign_txns": 0,
+      "false_positive_rate": 0.02865,
+      "true_campaigns": 0,
+      "detected_clusters": 0,
+      "campaigns_found": 0,
+      "campaign_precision": null,
+      "campaign_recall": null,
+      "campaign_f1": null,
+      "false_campaigns": 0,
+      "false_positive_cost_inr": 0.0,
+      "true_positive_fraud_prevented_inr": 0.0,
+      "true_positive_legit_disrupted_inr": 0.0,
+      "net_benefit_inr": 0.0,
+      "mean_containment_efficiency": null,
+      "analyst_compression": null,
+      "campaigns_costed": {
+        "true_positive": 0,
+        "false_positive": 0
+      },
+      "loss_calibration": null,
+      "_scoring_note": "Intervention chosen by ATLAS without labels; outcome scored against ground truth. Abandonment and stop-rate assumptions from counterfactual.ASSUMPTIONS.",
+      "sensitivity": {
+        "recommended_by_loss_share": {
+          "0.4": [],
+          "0.65": [],
+          "0.9": []
+        },
+        "recommendation_stable": true
+      }
+    },
+    "B": {
+      "dataset": "B",
+      "regime": "train",
+      "events": 5273,
+      "benign_events_scanned": 4506,
+      "campaign_txns": 767,
+      "txn_recall": 0.5828,
+      "txn_precision": 0.776,
+      "false_positive_rate": 0.02863,
+      "invisibility": 0.4172,
+      "max_campaign_txn_score": 1.0,
+      "true_campaigns": 3,
+      "detected_clusters": 3,
+      "campaigns_found": 3,
+      "campaign_precision": 1.0,
+      "campaign_recall": 1.0,
+      "campaign_f1": 1.0,
+      "false_campaigns": 0,
+      "mean_attribution_f1": 0.925,
+      "per_campaign": [
+        {
+          "campaign": "B_C01",
+          "detected": true,
+          "attribution_precision": 0.873,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.932
+        },
+        {
+          "campaign": "B_C02",
+          "detected": true,
+          "attribution_precision": 0.865,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.928
+        },
+        {
+          "campaign": "B_C03",
+          "detected": true,
+          "attribution_precision": 0.846,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.916
+        }
+      ],
+      "false_positive_cost_inr": 0.0,
+      "true_positive_fraud_prevented_inr": 594799.03,
+      "true_positive_legit_disrupted_inr": 1597.28,
+      "net_benefit_inr": 593201.75,
+      "mean_containment_efficiency": 376.54,
+      "analyst_compression": 278.0,
+      "campaigns_costed": {
+        "true_positive": 3,
+        "false_positive": 0
+      },
+      "loss_calibration": {
+        "assumed_realized_loss_share": 0.65,
+        "measured_realized_loss_share": 0.7957,
+        "relative_error": -0.1831,
+        "direction": "underestimates loss",
+        "dispute_confirmed_loss_inr": 545173.29,
+        "friendly_fraud_loss_inr": 76049.89,
+        "disputes_raised": 101
+      },
+      "_scoring_note": "Intervention chosen by ATLAS without labels; outcome scored against ground truth. Abandonment and stop-rate assumptions from counterfactual.ASSUMPTIONS.",
+      "sensitivity": {
+        "recommended_by_loss_share": {
+          "0.4": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.65": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.9": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ]
+        },
+        "recommendation_stable": true
+      }
+    },
+    "C": {
+      "dataset": "C",
+      "regime": "variant",
+      "events": 5886,
+      "benign_events_scanned": 4891,
+      "campaign_txns": 995,
+      "txn_recall": 0.0503,
+      "txn_precision": 0.2747,
+      "false_positive_rate": 0.02699,
+      "invisibility": 0.9497,
+      "max_campaign_txn_score": 1.0,
+      "true_campaigns": 3,
+      "detected_clusters": 4,
+      "campaigns_found": 3,
+      "campaign_precision": 0.75,
+      "campaign_recall": 1.0,
+      "campaign_f1": 0.857,
+      "false_campaigns": 1,
+      "mean_attribution_f1": 0.704,
+      "per_campaign": [
+        {
+          "campaign": "C_C01",
+          "detected": true,
+          "attribution_precision": 0.532,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.695
+        },
+        {
+          "campaign": "C_C02",
+          "detected": true,
+          "attribution_precision": 0.552,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.712
+        },
+        {
+          "campaign": "C_C03",
+          "detected": true,
+          "attribution_precision": 0.545,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.706
+        }
+      ],
+      "false_positive_cost_inr": 1711.69,
+      "true_positive_fraud_prevented_inr": 472877.73,
+      "true_positive_legit_disrupted_inr": 6854.7,
+      "net_benefit_inr": 464311.34,
+      "mean_containment_efficiency": 81.7,
+      "analyst_compression": 382.7,
+      "campaigns_costed": {
+        "true_positive": 3,
+        "false_positive": 1
+      },
+      "loss_calibration": {
+        "assumed_realized_loss_share": 0.65,
+        "measured_realized_loss_share": 0.7658,
+        "relative_error": -0.1512,
+        "direction": "underestimates loss",
+        "dispute_confirmed_loss_inr": 403147.84,
+        "friendly_fraud_loss_inr": 116482.25,
+        "disputes_raised": 72
+      },
+      "_scoring_note": "Intervention chosen by ATLAS without labels; outcome scored against ground truth. Abandonment and stop-rate assumptions from counterfactual.ASSUMPTIONS.",
+      "sensitivity": {
+        "recommended_by_loss_share": {
+          "0.4": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.65": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.9": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ]
+        },
+        "recommendation_stable": true
+      }
+    },
+    "D": {
+      "dataset": "D",
+      "regime": "train",
+      "events": 4980,
+      "benign_events_scanned": 4554,
+      "campaign_txns": 426,
+      "txn_recall": 0.4883,
+      "txn_precision": 0.6228,
+      "false_positive_rate": 0.02767,
+      "invisibility": 0.5117,
+      "max_campaign_txn_score": 1.0,
+      "true_campaigns": 2,
+      "detected_clusters": 2,
+      "campaigns_found": 2,
+      "campaign_precision": 1.0,
+      "campaign_recall": 1.0,
+      "campaign_f1": 1.0,
+      "false_campaigns": 0,
+      "mean_attribution_f1": 0.935,
+      "per_campaign": [
+        {
+          "campaign": "D_C01",
+          "detected": true,
+          "attribution_precision": 0.884,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.938
+        },
+        {
+          "campaign": "D_C02",
+          "detected": true,
+          "attribution_precision": 0.874,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.933
+        }
+      ],
+      "false_positive_cost_inr": 0.0,
+      "true_positive_fraud_prevented_inr": 394967.25,
+      "true_positive_legit_disrupted_inr": 1886.76,
+      "net_benefit_inr": 393080.49,
+      "mean_containment_efficiency": 336.83,
+      "analyst_compression": 234.0,
+      "campaigns_costed": {
+        "true_positive": 2,
+        "false_positive": 0
+      },
+      "loss_calibration": {
+        "assumed_realized_loss_share": 0.65,
+        "measured_realized_loss_share": 0.7312,
+        "relative_error": -0.1111,
+        "direction": "underestimates loss",
+        "dispute_confirmed_loss_inr": 337222.46,
+        "friendly_fraud_loss_inr": 233766.53,
+        "disputes_raised": 69
+      },
+      "_scoring_note": "Intervention chosen by ATLAS without labels; outcome scored against ground truth. Abandonment and stop-rate assumptions from counterfactual.ASSUMPTIONS.",
+      "sensitivity": {
+        "recommended_by_loss_share": {
+          "0.4": [
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.65": [
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.9": [
+            "targeted_containment",
+            "targeted_containment"
+          ]
+        },
+        "recommendation_stable": true
+      }
+    },
+    "E": {
+      "dataset": "E",
+      "regime": "adversarial",
+      "events": 5978,
+      "benign_events_scanned": 5202,
+      "campaign_txns": 776,
+      "txn_recall": 0.0052,
+      "txn_precision": 0.0315,
+      "false_positive_rate": 0.02364,
+      "invisibility": 0.9948,
+      "max_campaign_txn_score": 0.688,
+      "true_campaigns": 3,
+      "detected_clusters": 3,
+      "campaigns_found": 3,
+      "campaign_precision": 1.0,
+      "campaign_recall": 1.0,
+      "campaign_f1": 1.0,
+      "false_campaigns": 0,
+      "mean_attribution_f1": 0.675,
+      "per_campaign": [
+        {
+          "campaign": "E_C01",
+          "detected": true,
+          "attribution_precision": 0.508,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.673
+        },
+        {
+          "campaign": "E_C02",
+          "detected": true,
+          "attribution_precision": 0.512,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.678
+        },
+        {
+          "campaign": "E_C03",
+          "detected": true,
+          "attribution_precision": 0.508,
+          "attribution_recall": 1.0,
+          "attribution_f1": 0.674
+        }
+      ],
+      "false_positive_cost_inr": 0.0,
+      "true_positive_fraud_prevented_inr": 31102.64,
+      "true_positive_legit_disrupted_inr": 15632.27,
+      "net_benefit_inr": 15470.37,
+      "mean_containment_efficiency": 2.18,
+      "analyst_compression": 356.0,
+      "campaigns_costed": {
+        "true_positive": 3,
+        "false_positive": 0
+      },
+      "loss_calibration": {
+        "assumed_realized_loss_share": 0.65,
+        "measured_realized_loss_share": 0.8114,
+        "relative_error": -0.1989,
+        "direction": "underestimates loss",
+        "dispute_confirmed_loss_inr": 28040.29,
+        "friendly_fraud_loss_inr": 217319.24,
+        "disputes_raised": 29
+      },
+      "_scoring_note": "Intervention chosen by ATLAS without labels; outcome scored against ground truth. Abandonment and stop-rate assumptions from counterfactual.ASSUMPTIONS.",
+      "sensitivity": {
+        "recommended_by_loss_share": {
+          "0.4": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.65": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ],
+          "0.9": [
+            "targeted_containment",
+            "targeted_containment",
+            "targeted_containment"
+          ]
+        },
+        "recommendation_stable": true
+      }
+    }
+  }
+}
