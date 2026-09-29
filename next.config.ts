@@ -11,6 +11,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: { formats: ['image/avif', 'image/webp'] },
+  // Visitors are almost all first-time, and the Tailwind CSS is ~7 KB, so inline it
+  // and drop the render-blocking stylesheet request.
+  experimental: { inlineCss: true },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },

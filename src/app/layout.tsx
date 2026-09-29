@@ -9,11 +9,11 @@ import './globals.css'
 
 // Self-hosted and subset by next/font: no request to Google at runtime, no layout shift on swap.
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist', display: 'swap' })
+// Weight axis only: the optical-size axis quadrupled the font file for a barely visible gain.
 const newsreader = Newsreader({
   subsets: ['latin'],
   variable: '--font-newsreader',
   display: 'swap',
-  axes: ['opsz'],
 })
 
 const description = `${profile.headline} ${profile.about}`
