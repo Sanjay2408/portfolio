@@ -10,6 +10,7 @@ const result = (overrides: Partial<StatusResult>): StatusResult => ({
   latencyMs: 120,
   httpStatus: 200,
   checkedAt: '2026-09-29T00:00:00.000Z',
+  retried: false,
   ...overrides,
 })
 
@@ -93,6 +94,14 @@ describe('describeStatus', () => {
       tone: 'up',
       text: 'Up · 709 ms',
       label: 'Live and up, responded in 709 milliseconds',
+    })
+  })
+
+  it('says when the app only answered on the retry', () => {
+    expect(describeStatus(ready(result({ latencyMs: 400, retried: true })), 'demo')).toEqual({
+      tone: 'up',
+      text: 'Up · 400 ms · 2nd try',
+      label: 'Live and up, responded in 400 milliseconds on a second try after the first timed out',
     })
   })
 

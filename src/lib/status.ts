@@ -14,6 +14,8 @@ export interface StatusResult {
   readonly latencyMs: number | null
   readonly httpStatus: number | null
   readonly checkedAt: string
+  /** True when the first attempt timed out and the result comes from the one retry. */
+  readonly retried: boolean
 }
 
 export interface StatusResponse {
@@ -42,10 +44,12 @@ class TimeoutError extends Error {
   override readonly name = 'TimeoutError'
 }
 
-export async function checkUrl(
+type AttemptResult = Omit<StatusResult, 'retried'>
+
+async function attempt(
   target: StatusTarget,
-  { timeoutMs = DEFAULT_TIMEOUT_MS, fetch: fetchImpl = fetch, now = Date.now }: CheckOptions = {},
-): Promise<StatusResult> {
+  { timeoutMs = DEFAULT_TIMEOUT_MS, fetch: fetchImpl = fetch, now = Date.now }: CheckOptions,
+): Promise<AttemptResult> {
   const controller = new AbortController()
   const started = now()
   const checkedAt = new Date(started).toISOString()
@@ -87,6 +91,21 @@ export async function checkUrl(
   }
 }
 
+/**
+ * Checks one URL. A timeout gets exactly one retry, because the first request
+ * is often what wakes a sleeping serverless function; the retry then measures
+ * the app as a visitor would find it. Other failures are reported as they are.
+ */
+export async function checkUrl(
+  target: StatusTarget,
+  options: CheckOptions = {},
+): Promise<StatusResult> {
+  const first = await attempt(target, options)
+  if (first.state !== 'timeout') return { ...first, retried: false }
+  const second = await attempt(target, options)
+  return { ...second, checkedAt: first.checkedAt, retried: true }
+}
+
 /** Checks every target in parallel. Never rejects: a failed check is reported, not thrown. */
 export async function checkAll(
   targets: readonly StatusTarget[],
@@ -98,7 +117,14 @@ export async function checkAll(
   const results = settled.map((outcome, i): StatusResult => {
     if (outcome.status === 'fulfilled') return outcome.value
     const target = targets[i]!
-    return { ...target, state: 'down', latencyMs: null, httpStatus: null, checkedAt }
+    return {
+      ...target,
+      state: 'down',
+      latencyMs: null,
+      httpStatus: null,
+      checkedAt,
+      retried: false,
+    }
   })
   return { checkedAt, results }
 }
@@ -124,7 +150,8 @@ function isStatusResult(value: unknown): value is StatusResult {
     STATES.includes(r.state) &&
     isNullableNumber(r.latencyMs) &&
     isNullableNumber(r.httpStatus) &&
-    typeof r.checkedAt === 'string'
+    typeof r.checkedAt === 'string' &&
+    typeof r.retried === 'boolean'
   )
 }
 

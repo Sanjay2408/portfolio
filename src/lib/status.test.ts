@@ -44,6 +44,7 @@ describe('checkUrl', () => {
       latencyMs: 142,
       httpStatus: 200,
       checkedAt: new Date(1_000).toISOString(),
+      retried: false,
     })
   })
 
@@ -67,15 +68,41 @@ describe('checkUrl', () => {
     expect(result).toMatchObject({ state: 'down', latencyMs: null, httpStatus: null })
   })
 
-  it('reports timeout, not down, when the server does not answer in time', async () => {
-    const pending = checkUrl(target, { fetch: hangUntilAborted, timeoutMs: 5_000 })
+  it('reports timeout, not down, when both attempts go unanswered', async () => {
+    const spy = vi.fn<FetchLike>(hangUntilAborted)
+    const pending = checkUrl(target, { fetch: spy, timeoutMs: 5_000 })
+    await vi.advanceTimersByTimeAsync(10_000)
+    expect(await pending).toMatchObject({
+      state: 'timeout',
+      latencyMs: null,
+      httpStatus: null,
+      retried: true,
+    })
+    expect(spy).toHaveBeenCalledTimes(2)
+  })
+
+  it('retries once after a timeout and reports the warm response', async () => {
+    let calls = 0
+    const coldThenWarm: FetchLike = (url, init) => {
+      calls += 1
+      return calls === 1 ? hangUntilAborted(url, init) : respond(200)(url, init)
+    }
+    const pending = checkUrl(target, { fetch: coldThenWarm, timeoutMs: 5_000 })
     await vi.advanceTimersByTimeAsync(5_000)
-    expect(await pending).toMatchObject({ state: 'timeout', latencyMs: null, httpStatus: null })
+    expect(await pending).toMatchObject({ state: 'up', httpStatus: 200, retried: true })
+    expect(calls).toBe(2)
+  })
+
+  it('does not retry a failure that is not a timeout', async () => {
+    const spy = vi.fn<FetchLike>(respond(503))
+    const result = await checkUrl(target, { fetch: spy })
+    expect(result).toMatchObject({ state: 'down', retried: false })
+    expect(spy).toHaveBeenCalledOnce()
   })
 
   it('still times out when the fetch ignores the abort signal', async () => {
     const pending = checkUrl(target, { fetch: hangForever })
-    await vi.advanceTimersByTimeAsync(DEFAULT_TIMEOUT_MS)
+    await vi.advanceTimersByTimeAsync(DEFAULT_TIMEOUT_MS * 2)
     expect((await pending).state).toBe('timeout')
   })
 
@@ -129,8 +156,8 @@ describe('checkAll', () => {
 
   it('checks targets in parallel and keeps their order', async () => {
     const pending = checkAll(targets, { fetch: byHost, timeoutMs: 1_000 })
-    // One timeout window covers all three, so the checks ran concurrently.
-    await vi.advanceTimersByTimeAsync(1_000)
+    // Two timeout windows (attempt plus retry) cover all three, so the checks ran concurrently.
+    await vi.advanceTimersByTimeAsync(2_000)
     const { results } = await pending
     expect(results.map((r) => [r.slug, r.state])).toEqual([
       ['up', 'up'],
@@ -166,6 +193,7 @@ describe('checkAll', () => {
         latencyMs: null,
         httpStatus: null,
         checkedAt: new Date(0).toISOString(),
+        retried: false,
       },
     ])
   })
@@ -197,6 +225,7 @@ describe('isStatusResponse', () => {
         latencyMs: 120,
         httpStatus: 200,
         checkedAt: '2026-09-29T00:00:00.000Z',
+        retried: false,
       },
       {
         slug: 'b',
@@ -205,6 +234,7 @@ describe('isStatusResponse', () => {
         latencyMs: null,
         httpStatus: null,
         checkedAt: '2026-09-29T00:00:00.000Z',
+        retried: false,
       },
     ],
   }
@@ -220,6 +250,10 @@ describe('isStatusResponse', () => {
     ['an unknown state', { ...valid, results: [{ ...valid.results[0], state: 'degraded' }] }],
     ['a string latency', { ...valid, results: [{ ...valid.results[0], latencyMs: '120' }] }],
     ['a missing slug', { ...valid, results: [{ ...valid.results[0], slug: undefined }] }],
+    [
+      'a missing retried flag',
+      { ...valid, results: [{ ...valid.results[0], retried: undefined }] },
+    ],
   ])('rejects %s', (_, value) => {
     expect(isStatusResponse(value)).toBe(false)
   })

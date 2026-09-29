@@ -82,16 +82,22 @@ export function describeStatus(snapshot: StatusSnapshot, slug: string): StatusVi
   }
   switch (result.state) {
     case 'up':
-      return {
-        tone: 'up',
-        text: `Up · ${result.latencyMs} ms`,
-        label: `Live and up, responded in ${result.latencyMs} milliseconds`,
-      }
+      return result.retried
+        ? {
+            tone: 'up',
+            text: `Up · ${result.latencyMs} ms · 2nd try`,
+            label: `Live and up, responded in ${result.latencyMs} milliseconds on a second try after the first timed out`,
+          }
+        : {
+            tone: 'up',
+            text: `Up · ${result.latencyMs} ms`,
+            label: `Live and up, responded in ${result.latencyMs} milliseconds`,
+          }
     case 'timeout':
       return {
         tone: 'timeout',
         text: `No response in ${TIMEOUT_SECONDS} s`,
-        label: `No response within ${TIMEOUT_SECONDS} seconds, possibly a cold start`,
+        label: `No response within ${TIMEOUT_SECONDS} seconds, twice`,
       }
     case 'down':
       return {

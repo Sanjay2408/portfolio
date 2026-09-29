@@ -54,7 +54,7 @@ scripts/list-todos.ts   npm run todos
 visitor ──> page (static HTML) ──> StatusDot ──fetch──> /api/status (cached, 5 min)
                                                               │
                                                   checkAll: every live URL in parallel
-                                                  8 s deadline each, GET, body not downloaded
+                                                  8 s deadline, one retry on timeout, GET, body not downloaded
                                                               │
                                                   up | down | timeout
 ```
@@ -62,6 +62,7 @@ visitor ──> page (static HTML) ──> StatusDot ──fetch──> /api/sta
 - The route uses `dynamic = 'force-static'` with `revalidate = 300`. It is prerendered at build and regenerated in the background at most every 5 minutes, so a visitor never waits on a ping or triggers one.
 - Pings use `cache: 'no-store'`. Next caches `fetch` by default, and a cached ping would replay an old latency as if it were new.
 - `timeout` is its own state. A serverless project waking from a cold start is slow, not broken. This is not hypothetical: the Voice Detection API took more than 10 s to answer its first request while I was planning this site.
+- A timeout gets exactly one retry. After the first deploy the Voice API timed out on every check, because checks 5 minutes apart always found it asleep; awake, it answers in about 0.3 s. The first request wakes it, the retry measures it, and the dot says "2nd try" so the cold start stays visible. Other failures are not retried.
 - The deadline is raced against the request, so a fetch that ignores its abort signal still times out.
 - The client validates the JSON (`isStatusResponse`) before trusting it. If the route cannot be reached, the dot says so.
 

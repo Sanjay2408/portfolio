@@ -663,7 +663,7 @@ export const projects: readonly Project[] = [
         },
         {
           title: 'Three states, not two',
-          body: 'The status check reports up, down or timeout. A serverless project waking from a cold start is slow, not broken, and should not look like an outage.',
+          body: 'The status check reports up, down or timeout, and a timeout gets one retry. A serverless project waking from a cold start is slow, not broken, and should not look like an outage.',
         },
         {
           title: 'Diagrams as data, drawn as SVG at build time',
@@ -676,6 +676,12 @@ export const projects: readonly Project[] = [
           symptom:
             'While planning, the Voice API did not answer a first request within 10 seconds, then answered the next in under a second. An up or down check would have marked a healthy project as down.',
           fix: 'Added a timeout state separate from down, with an 8 second budget per ping, and cached results for 5 minutes so visitors never wait on a ping.',
+        },
+        {
+          title: 'Then it timed out on every check',
+          symptom:
+            'After the first deploy, the Voice API showed "no response" on every check. Checks run 5 minutes apart, so they always found it asleep, while the same API answered in 0.3 seconds once awake.',
+          fix: 'A timeout now gets exactly one retry, because the first request is what wakes the function. The dot reports the warm answer and says "2nd try", so the cold start is visible instead of hidden. Other failures are never retried.',
         },
       ],
       next: todo('What would you add next to this site?'),
