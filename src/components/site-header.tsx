@@ -14,7 +14,7 @@ export function SiteHeader() {
     <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
       <a
         href="#main"
-        className="sr-only rounded bg-accent px-3 py-2 text-sm font-medium text-on-accent focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
+        className="absolute top-3 left-3 z-50 -translate-y-[200%] rounded bg-accent px-3 py-2 text-sm font-medium text-on-accent transition-transform focus:translate-y-0"
       >
         Skip to content
       </a>
