@@ -45,6 +45,16 @@ export interface Table {
   readonly source: string
   /** Index of a column to emphasise, e.g. the headline metric. */
   readonly highlightColumn?: number
+  /** One or two sentences on how to read the table. */
+  readonly note?: string
+}
+
+export interface Screenshot {
+  /** Path under public/. */
+  readonly src: string
+  readonly width: number
+  readonly height: number
+  readonly alt: string
 }
 
 export interface DiagramNode {
@@ -108,5 +118,6 @@ export interface Project {
   /** Credit for work this project builds on. */
   readonly credit?: Link & { readonly text: string }
   readonly tables?: readonly Table[]
+  readonly screenshot?: Screenshot
   readonly caseStudy?: CaseStudy
 }

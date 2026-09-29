@@ -5,6 +5,7 @@ import {
   evaluationTable,
   falsePositiveCostTable,
   headlineMetrics,
+  headlineSentence,
   lossCalibration,
 } from './risk-atlas'
 
@@ -32,6 +33,13 @@ describe('RISK//ATLAS numbers', () => {
       ['D', '₹0', '₹394,967', '₹1,887', '₹393,080', '337×'],
       ['E', '₹0', '₹31,103', '₹15,632', '₹15,470', '2.18×'],
     ])
+  })
+
+  it('states the flagship result in one sentence from the same numbers', () => {
+    expect(headlineSentence).toBe(
+      'On an actively evasive attacker, transaction-level recall fell to 0.005 while campaign-level F1 stayed at 1.00, with zero false campaigns across 4,573 benign events.',
+    )
+    expect(falsePositiveCostTable.note).toContain('377× on the crude attacker to 2.18×')
   })
 
   it('reports the loss-constant error the README discloses', () => {

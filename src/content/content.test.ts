@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { collectStrings } from '@/lib/content-walk'
 import { allContent } from './index'
@@ -140,6 +142,24 @@ describe('architecture diagrams', () => {
 
   it.each(diagrams)('%s describes itself for screen readers', (_, diagram) => {
     expect(diagram.description.length).toBeGreaterThan(40)
+  })
+
+  it.each(diagrams)('%s keeps box text short enough to fit', (_, diagram) => {
+    for (const node of diagram.nodes) {
+      expect(node.label.length, node.label).toBeLessThanOrEqual(24)
+      expect(node.detail?.length ?? 0, node.detail).toBeLessThanOrEqual(38)
+    }
+  })
+})
+
+describe('screenshots', () => {
+  const shots = projects.flatMap((p) => (p.screenshot ? [[p.slug, p.screenshot] as const] : []))
+
+  it.each(shots)('%s declares the real size of an image in public/', (_, shot) => {
+    const png = readFileSync(join(process.cwd(), 'public', shot.src))
+    // PNG stores width and height as big-endian integers at bytes 16 and 20.
+    expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([shot.width, shot.height])
+    expect(shot.alt.length).toBeGreaterThan(30)
   })
 })
 

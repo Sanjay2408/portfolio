@@ -227,6 +227,12 @@ export const projects: readonly Project[] = [
     ],
     liveUrl: 'https://intelli-credit-seven.vercel.app',
     repo: { visibility: 'public', url: `${GITHUB}/intelli-credit` },
+    screenshot: {
+      src: '/screens/intellicredit.png',
+      width: 1392,
+      height: 900,
+      alt: 'IntelliCredit new assessment screen: a document drop zone listing the supported formats, a company details form, and a four-step progress bar from upload to AI assessment.',
+    },
     tables: [
       {
         caption: 'The original hackathon build against my rebuild',
@@ -281,7 +287,7 @@ export const projects: readonly Project[] = [
           {
             id: 'browser',
             label: 'React app',
-            detail: 'pdf.js + SheetJS, chunks in localStorage',
+            detail: 'pdf.js + SheetJS, chunks kept locally',
             col: 0,
             row: 0,
           },

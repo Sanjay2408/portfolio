@@ -88,6 +88,7 @@ export const evaluationTable: Table = {
     ]),
   ],
   highlightColumn: 6,
+  note: 'Campaign precision, recall and F1 are the primary metrics. Dataset A has no campaigns, so what it measures is the false-positive gate: benign traffic full of shared office IPs, kiosk devices and retry storms.',
   source: EVALUATION_SOURCE,
 }
 
@@ -110,8 +111,12 @@ export const falsePositiveCostTable: Table = {
     formatMultiplier(d.mean_containment_efficiency),
   ]),
   highlightColumn: 1,
+  note: `Containment efficiency falls from ${formatMultiplier(B.mean_containment_efficiency)} on the crude attacker to ${formatMultiplier(E.mean_containment_efficiency)} on the evasive one. That is a real finding: detection holds up across attackers far better than containment economics do.`,
   source: EVALUATION_SOURCE,
 }
+
+/** The flagship result as one sentence, built from the same numbers as the metrics. */
+export const headlineSentence = `On an actively evasive attacker, transaction-level recall fell to ${formatRate(E.txn_recall)} while campaign-level F1 stayed at ${formatRate(E.campaign_f1)}, with zero false campaigns across ${formatCount(benignEventsInA)} benign events.`
 
 /** Assumed vs measured realized-loss share on dataset B, the figure the README reports. */
 export const lossCalibration = {
