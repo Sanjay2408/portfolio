@@ -24,6 +24,7 @@ const intelli = pinned('intelli-credit', 'f01878b2d299eef1c23cd894f9f9c745975836
 const dose = pinned('DoseWise', '3bf3b78bee1004adb3825cb9fb689dd94c492ade')
 const voice = pinned('AI-voice-detection', '471f34b2e137438fb9ccbed8c3ada025c9e58882')
 const cine = pinned('Cine-NLP', 'b9d3157edf752c38625929a686e42d9c24271c16')
+const portfolioReadme = pinned('portfolio', 'eea1a619d3f2b07a48322a9004a6d10b5dd6c550')('README.md')
 
 export const PORTFOLIO_SLUG = 'portfolio'
 
@@ -595,8 +596,22 @@ export const projects: readonly Project[] = [
       'This site. Every number links to the file that proves it, tests fail CI if a claim loses its source or an em dash slips in, and a status route checks each live project every 5 minutes.',
     stack: ['TypeScript', 'Next.js', 'React', 'Tailwind CSS', 'Vitest', 'Vercel'],
     metrics: [
-      todo('Lighthouse scores, measured on the deployed site.'),
-      todo('Test coverage, from npm run coverage.'),
+      {
+        value: '96+',
+        label:
+          'Lighthouse mobile performance on the live site; 100 for accessibility, SEO and best practices',
+        source: `${portfolioReadme}#lighthouse`,
+      },
+      {
+        value: '100%',
+        label: 'of lines covered by 147 tests',
+        source: `${portfolioReadme}#what-the-tests-enforce`,
+      },
+      {
+        value: '0',
+        label: 'layout shift on every page',
+        source: `${portfolioReadme}#lighthouse`,
+      },
     ],
     repo: { visibility: 'public', url: `${GITHUB}/portfolio` },
     caseStudy: {
