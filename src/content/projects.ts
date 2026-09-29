@@ -1,6 +1,8 @@
 import {
   EVALUATION_SOURCE,
   README_SOURCE as ATLAS_README,
+  SPEC_SOURCE,
+  WHAT_BROKE_SOURCE,
   benignEventsInA,
   evaluationTable,
   falsePositiveCostTable,
@@ -180,6 +182,11 @@ export const projects: readonly Project[] = [
       next: todo(
         'What would you do next? Candidates from the README limitations: test on real data (everything is synthetic today), batch Kafka delivery reports (about 60 ms per event), widen the narrow 0.50 to 0.60 operating point.',
       ),
+      readMore: [
+        { label: 'All six failures, written up in full', href: WHAT_BROKE_SOURCE },
+        { label: 'The spec, locked before the detector existed', href: SPEC_SOURCE },
+        { label: 'Raw evaluation report', href: EVALUATION_SOURCE },
+      ],
     },
   },
 
@@ -236,7 +243,7 @@ export const projects: readonly Project[] = [
     tables: [
       {
         caption: 'The original hackathon build against my rebuild',
-        columns: ['', 'Original', 'My rebuild'],
+        columns: ['Area', 'Original', 'My rebuild'],
         rows: [
           [
             'File formats',

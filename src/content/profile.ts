@@ -15,11 +15,17 @@ export interface DesignRole {
   readonly detail?: string
 }
 
+export interface Fact {
+  readonly label: string
+  readonly value: string
+}
+
 export interface Profile {
   readonly name: string
   readonly shortName: string
   readonly headline: string
   readonly about: string
+  readonly facts: readonly Fact[]
   readonly email: string
   readonly links: {
     readonly github: string
@@ -38,6 +44,12 @@ export const profile: Profile = {
   headline: `I learn by shipping. ${shippedProjects.length} projects built across ${domains}.`,
   about:
     'Final-year Computer Science undergrad at RV University, Bengaluru, with a minor in Digital Experience Design. CGPA 9.45. I learn by building, not by studying first. My strongest language is Python, and I am working in TypeScript now.',
+  facts: [
+    { label: 'Studying', value: 'Final-year CS, RV University, Bengaluru' },
+    { label: 'CGPA', value: '9.45' },
+    { label: 'Minor', value: 'Digital Experience Design' },
+    { label: 'Strongest in', value: 'Python, working in TypeScript now' },
+  ],
   email: 'avpsgsanjay@gmail.com',
   links: {
     github: 'https://github.com/Sanjay2408',
@@ -69,8 +81,9 @@ export const wins: readonly Win[] = [
 ]
 
 export const design = {
+  title: 'I design what I build.',
   pitch:
-    'I design what I build. Design work for brands like Groww, Motilal Oswal and Red Bull is why my products look finished, not like prototypes.',
+    'Design work for brands like Groww, Motilal Oswal and Red Bull is why my products look finished, not like prototypes.',
   roles: [
     {
       role: 'Senior Graphic Designer',

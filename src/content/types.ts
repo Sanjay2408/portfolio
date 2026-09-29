@@ -97,6 +97,8 @@ export interface CaseStudy {
   readonly decisions: readonly Decision[]
   readonly broke: Maybe<readonly Incident[]>
   readonly next: Maybe<readonly string[]>
+  /** Deeper material in the repo, e.g. full write-ups. */
+  readonly readMore?: readonly Link[]
 }
 
 export interface Project {
