@@ -2,7 +2,7 @@
 
 My developer portfolio. It is also a project in its own right: every number on the site links to the file that proves it, and the test suite fails if a claim loses its source.
 
-**Live:** LIVE_URL_PLACEHOLDER
+**Live:** https://sanjay-sg-portfolio.vercel.app
 
 ## What it is
 
@@ -82,7 +82,7 @@ npm run build && npm start   # production build, TODO markers hidden
 
 ## What the tests enforce
 
-143 tests. Coverage: COVERAGE_PLACEHOLDER.
+147 tests. Coverage: 100% of lines, 98.4% of branches, 98.3% of statements (`npm run coverage`).
 
 - Every project has a repo link (or, for private code, a live URL), a non-empty stack, and one to three metrics or TODOs.
 - Every metric and table has an https source, pinned to a 40-character commit SHA so the link cannot silently change.
@@ -95,7 +95,20 @@ npm run build && npm start   # production build, TODO markers hidden
 
 ## Lighthouse
 
-LIGHTHOUSE_PLACEHOLDER
+Measured on the live site from a clean GitHub Actions runner (Lighthouse 13, [run 36531005097](https://github.com/Sanjay2408/portfolio/actions/runs/36531005097)). The [Lighthouse workflow](.github/workflows/lighthouse.yml) re-runs after every production deploy and fails if any category drops below 90.
+
+| Page                      | Device  | Performance | Accessibility | Best practices | SEO | LCP   |
+| ------------------------- | ------- | ----------- | ------------- | -------------- | --- | ----- |
+| `/`                       | mobile  | 96          | 100           | 100            | 100 | 1.2 s |
+| `/`                       | desktop | 100         | 100           | 100            | 100 | 0.5 s |
+| `/projects/risk-atlas`    | mobile  | 100         | 100           | 100            | 100 | 1.8 s |
+| `/projects/risk-atlas`    | desktop | 100         | 100           | 100            | 100 | 0.5 s |
+| `/projects/intellicredit` | mobile  | 99          | 100           | 100            | 100 | 2.0 s |
+| `/projects/intellicredit` | desktop | 100         | 100           | 100            | 100 | 0.5 s |
+
+Cumulative layout shift is 0 on every page. Accessibility was also checked in dark mode (100 on the home page and a case study).
+
+Why not run it locally against the live URL: on my machine, software outside the browser injects scripts into every non-localhost page, which dragged mobile performance to about 50. Measuring from a clean runner avoids trusting a number the environment is lying about.
 
 ## Decisions
 
