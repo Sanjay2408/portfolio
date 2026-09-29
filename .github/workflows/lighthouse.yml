@@ -1,0 +1,26 @@
+name: Lighthouse
+
+# Audits the live site from a clean runner after every production deploy.
+on:
+  deployment_status:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Run Lighthouse against the live site
+        run: node scripts/lighthouse.mjs https://sanjay-sg-portfolio.vercel.app | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: lighthouse/
